@@ -1,5 +1,5 @@
 """
-Main FastAPI Application for ThreatLens.
+Main FastAPI Application for HushWarden.
 Explainable threat intelligence layer.
 """
 
@@ -111,7 +111,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="ThreatLens API",
+    title="HushWarden API",
     description="Explainable threat intelligence layer for security decisions.",
     version="1.0.0",
     lifespan=lifespan,

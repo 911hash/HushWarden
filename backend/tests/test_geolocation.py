@@ -44,11 +44,11 @@ def mock_llm_reasoning():
     from app.services.llm_reasoner import LLMResult
 
     mock_res = LLMResult(
-        summary="ThreatLens AI analysis: Evaluated transport and geolocation infrastructure.",
+        summary="HushWarden AI analysis: Evaluated transport and geolocation infrastructure.",
         provider_used="groq",
         latency_ms=30,
         cache_hit=False,
-        raw_response="ThreatLens AI analysis: Evaluated transport and geolocation infrastructure.",
+        raw_response="HushWarden AI analysis: Evaluated transport and geolocation infrastructure.",
         anonymized_prompt="Anonymized prompt evidence",
     )
     with patch("app.services.email_forensics.reason", new=AsyncMock(return_value=mock_res)):

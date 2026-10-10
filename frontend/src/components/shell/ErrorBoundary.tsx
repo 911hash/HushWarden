@@ -61,7 +61,7 @@ export class ErrorBoundary extends Component<Props, State> {
             </div>
 
             <p className="text-xs text-[var(--text-secondary)] mb-4 leading-relaxed">
-              ThreatLens encountered an unexpected error while rendering this view. You can try recovering the view or reloading the page.
+              HushWarden encountered an unexpected error while rendering this view. You can try recovering the view or reloading the page.
             </p>
 
             {this.state.error && (

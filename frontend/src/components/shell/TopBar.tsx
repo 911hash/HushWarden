@@ -35,7 +35,7 @@ export const TopBar: React.FC = () => {
   // Compute breadcrumbs driven by active path
   const breadcrumbs: BreadcrumbItem[] = useMemo(() => {
     const p = location.pathname;
-    const base: BreadcrumbItem[] = [{ label: 'ThreatLens', onClick: () => navigate('/') }];
+    const base: BreadcrumbItem[] = [{ label: 'HushWarden', onClick: () => navigate('/') }];
 
     if (p === '/' || p === '/dashboard' || p === '/overview') {
       return [...base, { label: 'Overview' }];

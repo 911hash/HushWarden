@@ -97,7 +97,7 @@ async def lookup_virustotal_url(url: str) -> Dict[str, Any]:
     url_id = url_to_vt_id(url)
     endpoint = f"https://www.virustotal.com/api/v3/urls/{url_id}"
 
-    headers = {"x-apikey": api_key, "User-Agent": "ThreatLens/1.0"}
+    headers = {"x-apikey": api_key, "User-Agent": "HushWarden/1.0"}
 
     try:
         async with httpx.AsyncClient(timeout=10.0) as client:
@@ -207,7 +207,7 @@ async def lookup_virustotal_hash(file_hash: str) -> Dict[str, Any]:
         }
 
     endpoint = f"https://www.virustotal.com/api/v3/files/{file_hash}"
-    headers = {"x-apikey": api_key, "User-Agent": "ThreatLens/1.0"}
+    headers = {"x-apikey": api_key, "User-Agent": "HushWarden/1.0"}
 
     try:
         async with httpx.AsyncClient(timeout=10.0) as client:

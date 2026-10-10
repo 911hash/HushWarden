@@ -289,7 +289,7 @@ export function WatchlistPage() {
       <div className="max-w-3xl mx-auto py-16 px-4 space-y-6 animate-in fade-in duration-200">
         <EmptyState
           title="No Targets Under Active Watch"
-          description="ThreatLens will re-check these on a schedule and tell you the moment the verdict changes."
+          description="HushWarden will re-check these on a schedule and tell you the moment the verdict changes."
           action={
             <Button
               variant="primary"
@@ -308,7 +308,7 @@ export function WatchlistPage() {
           isOpen={isAddModalOpen}
           onClose={() => setIsAddModalOpen(false)}
           title="Add Target to Continuous Watchlist"
-          description="ThreatLens will monitor this indicator and trigger drift alerts on verdict changes."
+          description="HushWarden will monitor this indicator and trigger drift alerts on verdict changes."
         >
           <form onSubmit={handleAddTarget} className="space-y-4 py-2">
             <div>
@@ -615,7 +615,7 @@ export function WatchlistPage() {
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         title="Add Target to Continuous Watchlist"
-        description="ThreatLens will monitor this indicator and trigger drift alerts on verdict changes."
+        description="HushWarden will monitor this indicator and trigger drift alerts on verdict changes."
       >
         <form onSubmit={handleAddTarget} className="space-y-4 py-2">
           <div>

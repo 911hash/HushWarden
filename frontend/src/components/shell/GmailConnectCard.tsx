@@ -24,14 +24,14 @@ export const GmailConnectCard: React.FC = () => {
       </h2>
 
       <p className="text-base text-[var(--text-secondary)] leading-relaxed mb-6 max-w-md mx-auto">
-        ThreatLens reads your inbox to detect phishing, spoofing, and infrastructure threats in real-time.
+        HushWarden reads your inbox to detect phishing, spoofing, and infrastructure threats in real-time.
       </p>
 
       {/* Security Scope Banner */}
       <div className="flex items-center justify-center gap-2 p-3 mb-8 rounded-xl bg-[var(--bg-panel)] border border-[var(--border-subtle)] text-xs text-[var(--text-muted)] max-w-md mx-auto">
         <Lock className="w-4 h-4 text-emerald-500 shrink-0" />
         <span>
-          <strong>ThreatLens reads your inbox.</strong> It cannot send, delete, or modify email. Read-only access.
+          <strong>HushWarden reads your inbox.</strong> It cannot send, delete, or modify email. Read-only access.
         </span>
       </div>
 

@@ -132,7 +132,7 @@ export const Sidebar: React.FC = () => {
         <div
           onClick={() => navigate('/')}
           className="w-8 h-8 rounded-lg bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-500 shrink-0 cursor-pointer hover:bg-blue-600/20 transition-colors"
-          title="ThreatLens Home"
+          title="HushWarden Home"
         >
           <ShieldAlert className="w-4 h-4" />
         </div>
@@ -140,7 +140,7 @@ export const Sidebar: React.FC = () => {
         {!collapsed && (
           <div className="flex flex-col truncate">
             <span className="font-mono font-bold text-sm tracking-wider text-[var(--text-primary)] leading-tight">
-              THREAT<span className="text-blue-500">LENS</span>
+              HUSH<span className="text-blue-500">WARDEN</span>
             </span>
             <span className="text-[10px] text-[var(--text-tertiary)] font-sans">
               Explainable Intel

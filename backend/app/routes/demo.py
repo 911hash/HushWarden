@@ -168,7 +168,7 @@ def seed_demo_data(
         ],
         raw_summary={
             "group_breakdown": {"AV_DETECTIONS": 0, "REPUTATION_LISTS": 0, "DOMAIN_INFRA": 0, "BEHAVIOR": 0, "MITIGATING": -15},
-            "explanation": "ThreatLens evaluated this target as SAFE (5/100) across verified intelligence sources.",
+            "explanation": "HushWarden evaluated this target as SAFE (5/100) across verified intelligence sources.",
             "recommended_action": "No significant malicious indicators were found in the available intelligence.",
             "redirects": {
                 "initial_url": "https://safe-portal.example.com",
@@ -237,7 +237,7 @@ def seed_demo_data(
         ],
         raw_summary={
             "group_breakdown": {"AV_DETECTIONS": 0, "REPUTATION_LISTS": 30, "DOMAIN_INFRA": 15, "BEHAVIOR": 0, "MITIGATING": 0},
-            "explanation": "ThreatLens scored this target at 65/100 (HIGH) based on newly registered domain and active phishing feeds.",
+            "explanation": "HushWarden scored this target at 65/100 (HIGH) based on newly registered domain and active phishing feeds.",
             "recommended_action": "Phishing threat detected: Do not enter credentials. Revoke active sessions if credentials were submitted.",
             "redirects": {
                 "initial_url": "http://account-verification-alert.example-phishing.org/login",
@@ -307,7 +307,7 @@ def seed_demo_data(
         ],
         raw_summary={
             "group_breakdown": {"AV_DETECTIONS": 50, "REPUTATION_LISTS": 0, "DOMAIN_INFRA": 0, "BEHAVIOR": 25, "MITIGATING": 0},
-            "explanation": "ThreatLens scored this target at 85/100 (CRITICAL) because multiple indicators point to malicious activity.",
+            "explanation": "HushWarden scored this target at 85/100 (CRITICAL) because multiple indicators point to malicious activity.",
             "recommended_action": "Do not open or execute this target. Block at perimeter firewalls and isolate any endpoints that accessed it.",
             "behavior": {
                 "powershell_executed": True,
@@ -460,7 +460,7 @@ def seed_demo_data(
                     "BEHAVIOR": 0,
                     "MITIGATING": 0,
                 },
-                "explanation": f"ThreatLens scored this target at {sc}/100 ({lvl}) based on deteriorating telemetry.",
+                "explanation": f"HushWarden scored this target at {sc}/100 ({lvl}) based on deteriorating telemetry.",
                 "recommended_action": "Do not open or execute this target. Block at perimeter firewalls." if sc >= 55 else "Exercise caution.",
                 "redirects": {
                     "initial_url": FEATURED_DEMO_URL,
@@ -504,7 +504,7 @@ def seed_demo_data(
         ],
         raw_summary={
             "group_breakdown": {"AV_DETECTIONS": 50, "REPUTATION_LISTS": 25, "DOMAIN_INFRA": 0, "BEHAVIOR": 0, "MITIGATING": 0},
-            "explanation": "ThreatLens scored this target at 78/100 (HIGH).",
+            "explanation": "HushWarden scored this target at 78/100 (HIGH).",
             "recommended_action": "Do not open or execute this target.",
             "redirects": {
                 "initial_url": "http://remediated-host.example-clean.net/download",
@@ -542,12 +542,12 @@ def seed_demo_data(
                 "points": -15,
                 "title": "Remediated Clean Domain [DEMO]",
                 "description": "Malicious payload removed; security vendors unflagged site.",
-                "source": "ThreatLens Telemetry [DEMO]",
+                "source": "HushWarden Telemetry [DEMO]",
             }
         ],
         raw_summary={
             "group_breakdown": {"AV_DETECTIONS": 0, "REPUTATION_LISTS": 0, "DOMAIN_INFRA": 0, "BEHAVIOR": 0, "MITIGATING": -15},
-            "explanation": "ThreatLens evaluated this target with a low risk rating of 12/100 (LOW).",
+            "explanation": "HushWarden evaluated this target with a low risk rating of 12/100 (LOW).",
             "recommended_action": "No major threat indicators were found, but this is not a guarantee of safety.",
             "redirects": {
                 "initial_url": "http://remediated-host.example-clean.net/download",

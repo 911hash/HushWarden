@@ -115,7 +115,7 @@ async def lookup_rdap(domain: str) -> Dict[str, Any]:
 
     try:
         async with httpx.AsyncClient(timeout=4.0, follow_redirects=True) as client:
-            resp = await client.get(endpoint, headers={"User-Agent": "ThreatLens/1.0"})
+            resp = await client.get(endpoint, headers={"User-Agent": "HushWarden/1.0"})
             if resp.status_code != 200:
                 return {
                     "name": "RDAP",
@@ -185,7 +185,7 @@ async def lookup_crtsh(domain: str) -> Dict[str, Any]:
 
     try:
         async with httpx.AsyncClient(timeout=4.0) as client:
-            resp = await client.get(endpoint, headers={"User-Agent": "ThreatLens/1.0"})
+            resp = await client.get(endpoint, headers={"User-Agent": "HushWarden/1.0"})
             if resp.status_code != 200:
                 return {
                     "name": "crt.sh",

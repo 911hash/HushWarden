@@ -396,7 +396,7 @@ def evaluate(evidence: NormalizedEvidence, now: Optional[datetime] = None) -> Ri
                     f"File or target presents a digital signature, but {vt_malicious} security engines "
                     "flagged it as malicious. Mitigating credits are withheld; signature may be stolen or compromised."
                 ),
-                source="ThreatLens Analysis",
+                source="HushWarden Analysis",
                 evidence_ref={"vt_malicious": vt_malicious, "is_signed": is_signed}
             ))
         else:
@@ -750,26 +750,26 @@ def _generate_plain_english_explanation(
     """Deterministic plain-English breakdown keyed on factors."""
     if level == "UNKNOWN":
         return (
-            "ThreatLens was unable to collect sufficient security telemetry from connected intelligence "
+            "HushWarden was unable to collect sufficient security telemetry from connected intelligence "
             "providers. The target has no prior reputation history. Lack of detection is not proof of safety."
         )
 
     parts = []
     if level in ("CRITICAL", "HIGH"):
         parts.append(
-            f"ThreatLens scored this target at {score}/100 ({level}) because multiple indicators point to malicious activity."
+            f"HushWarden scored this target at {score}/100 ({level}) because multiple indicators point to malicious activity."
         )
     elif level == "MEDIUM":
         parts.append(
-            f"ThreatLens identified suspicious properties resulting in a {score}/100 ({level}) rating."
+            f"HushWarden identified suspicious properties resulting in a {score}/100 ({level}) rating."
         )
     elif level == "LOW":
         parts.append(
-            f"ThreatLens evaluated this target with a low risk rating of {score}/100 ({level}). Minor anomalies were observed."
+            f"HushWarden evaluated this target with a low risk rating of {score}/100 ({level}). Minor anomalies were observed."
         )
     else:
         parts.append(
-            f"ThreatLens evaluated this target as {level} ({score}/100) across verified intelligence sources."
+            f"HushWarden evaluated this target as {level} ({score}/100) across verified intelligence sources."
         )
 
     # Highlight specific key factors

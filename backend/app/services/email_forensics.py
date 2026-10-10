@@ -447,19 +447,19 @@ async def process_email_forensics(
         if risk_level in ("CRITICAL", "HIGH"):
             action = "Phishing threat detected. Do not reply, click links, or open attachments. Report to Security Operations."
             explanation = (
-                f"ThreatLens scored this email at {score}/100 ({risk_level}). Critical anomalies observed: "
+                f"HushWarden scored this email at {score}/100 ({risk_level}). Critical anomalies observed: "
                 + "; ".join(f.title for f in factors if f.type == "indicator")
                 + "."
             )
         elif risk_level == "MEDIUM":
             action = "Exercise caution. Verify the sender identity through an out-of-band channel before taking any action."
-            explanation = f"ThreatLens flagged suspicious properties resulting in a {score}/100 ({risk_level}) rating."
+            explanation = f"HushWarden flagged suspicious properties resulting in a {score}/100 ({risk_level}) rating."
         elif risk_level == "LOW":
             action = "Standard vigilance recommended. Review links and attachments carefully."
-            explanation = f"ThreatLens evaluated this email with low risk ({score}/100). Minor transport variances noted."
+            explanation = f"HushWarden evaluated this email with low risk ({score}/100). Minor transport variances noted."
         else:
             action = "Email verified against authentication standards. No high-risk indicators found."
-            explanation = f"ThreatLens evaluated this email as SAFE ({score}/100). SPF, DKIM, and DMARC checks passed."
+            explanation = f"HushWarden evaluated this email as SAFE ({score}/100). SPF, DKIM, and DMARC checks passed."
 
     # 7. Attack Chain Graph
     chain_nodes: List[AttackChainNode] = []

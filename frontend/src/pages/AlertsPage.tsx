@@ -173,7 +173,7 @@ export const AlertsPage: React.FC = () => {
       <div className="max-w-3xl mx-auto py-16 px-4 space-y-6 animate-in fade-in duration-200">
         <EmptyState
           title="No Escalations"
-          description={`ThreatLens is watching ${watchlistCount || 4} targets. Automated alerts will trigger the moment a score escalates or indicators drift.`}
+          description={`HushWarden is watching ${watchlistCount || 4} targets. Automated alerts will trigger the moment a score escalates or indicators drift.`}
           action={
             <Button
               variant="primary"

@@ -25,7 +25,7 @@ async def _refresh_openphish_feed_if_needed():
 
     try:
         async with httpx.AsyncClient(timeout=6.0) as client:
-            resp = await client.get("https://openphish.com/feed.txt", headers={"User-Agent": "ThreatLens/1.0"})
+            resp = await client.get("https://openphish.com/feed.txt", headers={"User-Agent": "HushWarden/1.0"})
             if resp.status_code == 200:
                 urls = {line.strip().lower() for line in resp.text.splitlines() if line.strip()}
                 _OPENPHISH_CACHE = urls
@@ -66,7 +66,7 @@ async def lookup_urlhaus(url: str) -> Dict[str, Any]:
         }
 
     endpoint = "https://urlhaus-api.abuse.ch/v1/url/"
-    headers = {"Auth-Key": auth_key, "User-Agent": "ThreatLens/1.0"}
+    headers = {"Auth-Key": auth_key, "User-Agent": "HushWarden/1.0"}
     data = {"url": url}
 
     try:

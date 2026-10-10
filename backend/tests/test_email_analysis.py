@@ -42,11 +42,11 @@ def setup_db():
 @pytest.fixture(autouse=True)
 def mock_llm_reasoning():
     mock_res = LLMResult(
-        summary="ThreatLens AI analysis: Email evaluated against RFC authentication and infrastructure signals.",
+        summary="HushWarden AI analysis: Email evaluated against RFC authentication and infrastructure signals.",
         provider_used="groq",
         latency_ms=45,
         cache_hit=False,
-        raw_response="ThreatLens AI analysis: Email evaluated against RFC authentication and infrastructure signals.",
+        raw_response="HushWarden AI analysis: Email evaluated against RFC authentication and infrastructure signals.",
         anonymized_prompt="Anonymized prompt evidence",
     )
     with patch("app.services.email_forensics.reason", new=AsyncMock(return_value=mock_res)):
@@ -111,7 +111,7 @@ Content-Type: text/html
 </html>
 """
 
-ATTACHMENT_CONTENT = b"ThreatLens Attachment Test Payload - Stream Hash Verification"
+ATTACHMENT_CONTENT = b"HushWarden Attachment Test Payload - Stream Hash Verification"
 ATTACHMENT_B64 = base64.b64encode(ATTACHMENT_CONTENT).decode("ascii")
 
 ATTACHMENT_EML = f"""From: hr@example-company.test

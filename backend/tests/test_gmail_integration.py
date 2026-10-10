@@ -46,11 +46,11 @@ def setup_db():
 @pytest.fixture(autouse=True)
 def mock_llm_reasoning():
     mock_res = LLMResult(
-        summary="ThreatLens AI analysis: Email evaluated against RFC authentication and infrastructure signals.",
+        summary="HushWarden AI analysis: Email evaluated against RFC authentication and infrastructure signals.",
         provider_used="groq",
         latency_ms=45,
         cache_hit=False,
-        raw_response="ThreatLens AI analysis: Email evaluated against RFC authentication and infrastructure signals.",
+        raw_response="HushWarden AI analysis: Email evaluated against RFC authentication and infrastructure signals.",
         anonymized_prompt="Anonymized prompt evidence",
     )
     with patch("app.services.email_forensics.reason", new=AsyncMock(return_value=mock_res)):

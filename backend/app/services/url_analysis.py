@@ -23,7 +23,7 @@ ADDITIONAL_BLOCKED_NETWORKS = [
     ipaddress.ip_network("2001:db8::/32"),       # IPv6 documentation
 ]
 
-GENERIC_USER_AGENT = "ThreatLens-Scanner/1.0 (+https://threatlens.local)"
+GENERIC_USER_AGENT = "HushWarden-Scanner/1.0 (+https://hushwarden.local)"
 MAX_REDIRECTS = 5
 PER_REQUEST_TIMEOUT = 5.0
 TOTAL_TIMEOUT_BUDGET = 10.0

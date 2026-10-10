@@ -395,7 +395,7 @@ export const SettingsPage: React.FC = () => {
             <span>Privacy Safeguards & Outbound Telemetry</span>
           </h2>
           <p className="text-xs text-[var(--text-secondary)] mt-0.5">
-            Controls for third-party submissions. ThreatLens defaults to query-only mode to prevent confidential indicator leakage.
+            Controls for third-party submissions. HushWarden defaults to query-only mode to prevent confidential indicator leakage.
           </p>
         </div>
 

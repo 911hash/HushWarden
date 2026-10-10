@@ -48,7 +48,7 @@ export const RecommendedActionCard: React.FC<RecommendedActionCardProps> = ({ ac
         <h4 className="text-sm font-bold uppercase tracking-wider font-mono">{style.title}</h4>
         <p className="text-sm font-medium leading-relaxed">{action}</p>
         <p className="text-[11px] opacity-75 pt-1">
-          ThreatLens assessments represent multi-engine intelligence synthesis; absence of detection is not a warranty of safety.
+          HushWarden assessments represent multi-engine intelligence synthesis; absence of detection is not a warranty of safety.
         </p>
       </div>
     </div>

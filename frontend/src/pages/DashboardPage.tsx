@@ -379,7 +379,7 @@ export const DashboardPage: React.FC = () => {
       <div className="max-w-3xl mx-auto py-16 px-4">
         <ErrorState
           title="Failed to Load Overview Dashboard"
-          message={error || 'Unable to communicate with the ThreatLens API engine.'}
+          message={error || 'Unable to communicate with the HushWarden API engine.'}
           onRetry={loadDashboardData}
         />
       </div>
@@ -691,7 +691,7 @@ export const DashboardPage: React.FC = () => {
               <div className="space-y-1">
                 <h4 className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-blue-400" />
-                  <span>Welcome to ThreatLens</span>
+                  <span>Welcome to HushWarden</span>
                 </h4>
                 <p className="text-xs text-[var(--text-secondary)]">
                   Your explainable multi-source security intelligence layer is ready. Follow the 3-step lifecycle below to begin:

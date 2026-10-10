@@ -150,7 +150,7 @@ export const DesignSystemPage: React.FC = () => {
               <span className="text-xs text-[var(--text-tertiary)] font-mono">Design System Audit & Review</span>
             </div>
             <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)]">
-              ThreatLens Design System
+              HushWarden Design System
             </h1>
             <p className="text-xs text-[var(--text-secondary)] mt-1 max-w-2xl">
               Zero-dependency SecOps component library tailored for SOC analysts, incident responders, and executives.
@@ -564,7 +564,7 @@ export const DesignSystemPage: React.FC = () => {
               High confidence phishing campaign targeting OAuth tokens; domain registered 48 hours ago.
             </Callout>
             <Callout variant="warning" title="SSRF & Privacy Warning">
-              Targets are never fetched directly by ThreatLens. All telemetry is proxied via third-party scanners.
+              Targets are never fetched directly by HushWarden. All telemetry is proxied via third-party scanners.
             </Callout>
             <Callout variant="demo" title="Simulated Scan Environment">
               This target is running on seeded test fixtures. Real threat intel keys are optional.

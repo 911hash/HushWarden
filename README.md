@@ -1,57 +1,69 @@
-# ThreatLens
+# HushWarden
 
-> **"VirusTotal tells you what security engines found. ThreatLens tells you what it means."**
+> **VirusTotal tells you what engines found. HushWarden tells you what it means.**
 
-**ThreatLens is an explainability and threat-evolution layer, not a replacement for antivirus engines.**
+HushWarden is an explainable threat intelligence platform for email. It connects
+to Gmail, analyzes every message across seven independent intelligence sources,
+and produces a verdict you can actually understand — with every point of the
+score traceable to specific evidence.
 
 ---
+
+## The Problem
+
+A security analyst gets a phishing report. VirusTotal says "4/72 engines
+flagged this URL." So what?
+
+- Is it a high-confidence credential harvester, or four legacy heuristics
+  tripping on an expired certificate?
+- Is that "4" actually four independent detections, or one shared blacklist
+  that four vendors ingested?
+- Was it clean yesterday and flagged today — meaning an attacker just
+  weaponized it — or has it been flagged for years?
+- What should a non-technical employee do with it?
+
+Traditional threat intelligence tools answer none of these questions. They
+report numbers without context, snapshots without history, and detections
+without confidence.
+
+---
+
+## What HushWarden Does
+
+1. Connects to your Gmail with read-only OAuth.
+2. Analyzes every email across 7 intelligence sources: VirusTotal, Google
+   Safe Browsing, abuse.ch URLhaus, OpenPhish, DNS, RDAP, and certificate
+   transparency.
+3. Correlates independent sources — five vendors sharing a feed count as
+   one signal, not five.
+4. Tracks verdict drift — every rescan is diffed against the last, so you
+   see what changed and why.
+5. Generates plain-English explanations via a fallback chain of three LLMs
+   (Groq -> Cloudflare Workers AI -> Mistral), with email bodies anonymized
+   before any external call.
+6. Builds a forensic graph linking every sender, IP, domain, hash, and URL
+   across your inbox.
+
+---
+
+## Screenshots
+
+Screenshots of HushWarden across desktop, mobile, and empty states are located in `screenshots/`:
+- `screenshots/overview_1280_dark.png` — Overview Dashboard (Desktop Dark Mode)
+- `screenshots/overview_1280_light.png` — Overview Dashboard (Desktop Light Mode)
+- `screenshots/overview_320_dark.png` — Overview Dashboard (Mobile 320px)
+- `screenshots/overview_empty_state.png` — Overview Dashboard (Zero Scans State)
+- `screenshots/alerts_1280_dark.png` — Alerts and Drift Feed (Desktop Dark Mode)
 
 <p align="center">
-  <img src="media/threatlens-demo.svg" alt="ThreatLens dashboard preview" width="840" />
+  <img src="media/threatlens-demo.svg" alt="HushWarden dashboard preview" width="840" />
 </p>
 
-**[▶ Open ThreatLens Live Demo](https://threatlens-1uk.pages.dev/)**
-
-ThreatLens bridges the gap between raw, opaque telemetry (such as "14/72 engines flagged this URL") and actionable, explainable security decisions. It provides transparent scoring, historical verdict drift tracking, attack chain visualization, and plain-English summaries for security analysts, incident responders, and decision makers.
-
 ---
 
-## 1. What It Is & The Problem It Solves
+## Architecture
 
-### The Problem
-Traditional threat intelligence databases like VirusTotal excel at cataloging what security vendors detect at a single moment in time. However, security analysts, incident responders, and executives face critical blind spots:
-- **Opaque Scoring**: What does "4 detections" mean? Is it a high-confidence malware delivery site, or three legacy heuristics flagging an expired certificate?
-- **No Temporal Context (Verdict Drift)**: Attackers do not launch campaigns statically. A domain starts benign, builds reputation, modifies its redirect chain to point to credential harvesters, and moves on when the campaign burns out. VirusTotal shows scan snapshots at dates T₁, T₂, T₃ … but never the explicit "what changed between T₁ and T₂?"
-- **Double Counting**: If five vendors ingest the same public blacklist feed, their 5 hits represent 1 independent signal, not 5 separate corroborations.
-- **Jargon & Decision Paralysis**: Non-specialists and decision makers need clear, plain-English guidance on what to do (e.g. "Do not enter credentials; revoke active sessions"), not just a wall of security vendor tags.
-
-### The Solution: ThreatLens
-ThreatLens acts as an explainable interpretation layer sitting on top of multi-source intelligence:
-- **Transparent Scoring Formula**: Every point in the 0–100 risk score is mapped to visible evidence groups with explicit caps (`AV_DETECTIONS`, `REPUTATION_LISTS`, `DOMAIN_INFRA`, `BEHAVIOR`, `TEMPORAL`). No black box.
-- **Verdict Drift Tracking ("What Changed?")**: Deterministic comparative diffs highlight exact changes across scans: score deltas, added/removed factors, redirect hop deviations, and reputation feed status transitions.
-- **Independent Multi-Source Correlation**: Balances keyless sources (DNS resolution, RDAP domain age, crt.sh Certificate Transparency, OpenPhish) and keyed sources (VirusTotal, Google Safe Browsing, Abuse.ch) to avoid double-counting vendor consensus.
-- **Attack Chain Graph**: Hand-crafted interactive SVG/CSS visualization tracing traffic flow through intermediate redirects, hosting ASN/IPs, and final landing destinations.
-- **Plain English Perspective**: Deterministic, LLM-free executive summaries for non-technical stakeholders alongside complete technical evidence breakdowns for SOC analysts.
-
----
-
-## 2. Why It Differs from VirusTotal
-
-| Capability | VirusTotal | ThreatLens |
-| :--- | :--- | :--- |
-| **Primary Goal** | Massive malware & scanner aggregation database | Explainability, correlation & evolution layer |
-| **Scoring Model** | Engine count ratio (e.g. 14/72) | Transparent 0–100 score with group caps & anti-double-counting |
-| **Confidence Metric** | Implicit | Explicit 0–100% score based on independent source agreement |
-| **Verdict Evolution** | Historical scan timestamps | Direct comparative diffs ("What Changed?") with deterministic summaries |
-| **Attack Chain** | Multi-hop relationship graphs | Lightweight, focused redirect & infrastructure flow visualization |
-| **Language** | Security vendor technical tags | Dual-view: Plain English (executive) + Technical (SOC analyst) |
-| **Privacy Default** | Public submissions scanned & shared globally | Private lookup only by default; zero file uploads without explicit consent |
-
----
-
-## 3. Architecture & Tech Stack
-
-ThreatLens is designed as a modular, responsive full-stack system:
+HushWarden is designed as a modular, responsive full-stack system:
 
 ```
 [ Client: React 18 + TS + Tailwind + Vite ]
@@ -59,23 +71,44 @@ ThreatLens is designed as a modular, responsive full-stack system:
             HTTP / REST (Port 5173 -> 8000)
                     ▼
 [ FastAPI App (Python 3.11+) ]
+   ├── Multi-User Session Isolation (tl_session SameSite=None; Secure)
+   ├── Gmail Read-Only Sync & MIME / RFC 822 Parser
+   ├── Anonymized LLM Reasoner (Groq -> Cloudflare AI -> Mistral)
    ├── SSRF Protection & Safe DNS Resolver (socket / ipaddress)
-   ├── Pure Risk Engine (Deterministic, Zero I/O)
+   ├── Pure Risk Engine (Deterministic, Group Caps & Decay)
+   ├── Artifact Forensic Graph Service (Nodes, Edges, Cross-Case Pivots)
    ├── Comparison Service (Verdict Drift & Metric Diffs)
    ├── Background Watchlist Monitor (Asyncio Task)
    └── SQLite Database (SQLAlchemy 2.x)
 ```
 
-### Stack Breakdown:
+---
+
+## Why Not Just Use VirusTotal?
+
+| Capability | VirusTotal | HushWarden |
+| :--- | :--- | :--- |
+| **Primary Goal** | Massive malware & scanner aggregation database | Explainability, correlation & evolution layer |
+| **Scoring Model** | Engine count ratio (e.g. 14/72) | Transparent 0–100 score with group caps & anti-double-counting |
+| **Confidence Metric** | Implicit | Explicit 0–100% score based on independent source agreement |
+| **Verdict Evolution** | Historical scan timestamps | Direct comparative diffs ("What Changed?") with deterministic summaries |
+| **Attack Chain** | Multi-hop relationship graphs | Focused redirect & infrastructure flow visualization |
+| **Language** | Security vendor technical tags | Dual-view: Plain English (executive) + Technical (SOC analyst) |
+| **Privacy Default** | Public submissions scanned & shared globally | Private lookup only by default; zero file uploads without explicit consent |
+
+---
+
+## Tech Stack
+
 - **Frontend**:
   - React 18 + TypeScript + Vite
-  - Tailwind CSS v3 for high-density SOC styling
+  - Vanilla CSS tokens & Tailwind CSS v3 for high-density SOC styling
   - Lucide React for consistent icons
   - Recharts for time-series verdict evolution charts
-  - Hand-crafted SVG/CSS for Attack Chain Graphs (zero React Flow dependency)
+  - Custom SVG/CSS for Attack Chain & Artifact Graphs
   - React Router v6
 - **Backend**:
-  - Python 3.11+
+  - Python 3.11+ / Python 3.12+
   - FastAPI + Pydantic v2
   - SQLite + SQLAlchemy 2.x
   - `httpx` (async HTTP client with timeouts & streaming)
@@ -86,7 +119,7 @@ ThreatLens is designed as a modular, responsive full-stack system:
 
 ---
 
-## 4. Setup & Running Locally
+## Local Setup
 
 ### Prerequisites
 - Python 3.11+ installed and on your PATH
@@ -125,95 +158,22 @@ npm run dev -- --host
 
 ---
 
-## 5. Environment Variables & Demo Mode
-
-ThreatLens runs **100% out of the box in DEMO MODE** with zero external API keys required. All simulated data is clearly labeled `[DEMO / SIMULATED]`.
-
-Copy `.env.example` to `.env`:
-```ini
-# Optional Keyed Threat Feeds
-VIRUSTOTAL_API_KEY=
-GOOGLE_SAFE_BROWSING_API_KEY=
-ABUSECH_AUTH_KEY=
-
-# Privacy Toggles (Strict Default False)
-ALLOW_VT_URL_SUBMISSION=false
-ALLOW_FILE_UPLOAD_TO_VT=false
-
-# Networking & Scheduling
-FRONTEND_ORIGIN=http://localhost:5173
-VITE_API_BASE_URL=http://localhost:8000
-WATCHLIST_INTERVAL_MINUTES=15
-```
-
-### Evidence Sources:
-- **Keyless / Free (Active by default)**:
-  - DNS resolution (A/AAAA/MX/NS via socket)
-  - RDAP for registrar and domain age (newly registered domain detection)
-  - crt.sh Certificate Transparency (certificate age, typosquatting SANs)
-  - OpenPhish community feed (cached in-memory, refreshed periodically)
-- **Keyed (Optional)**:
-  - VirusTotal API v3 (URL & file hash lookups with 4 req/min token bucket & 10-minute caching)
-  - Google Safe Browsing API v4
-  - Abuse.ch URLhaus API
-
----
-
-## 6. Security & SSRF Protection
-
-Because ThreatLens actively traces URL redirect chains across the public web, strict enterprise SSRF defenses are enforced:
-1. **Scheme Restriction**: Allows only `http://` and `https://`. Rejects all exotic schemes (`file://`, `ftp://`, `gopher://`).
-2. **Pre-Flight DNS Resolution & IP Blocklist**: Resolves hostnames before making HTTP requests and blocks:
-   - Loopback (`127.0.0.0/8`, `::1`)
-   - RFC 1918 Private ranges (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`)
-   - Link-local and Carrier-Grade NAT (`169.254.0.0/16`, `100.64.0.0/10`)
-   - Cloud metadata IP (`169.254.169.254`)
-   - IPv6 unique local and link-local (`fc00::/7`, `fe80::/10`)
-3. **Per-Hop Redirect Validation**: Re-validates the resolved destination IP at **every single redirect hop** to prevent DNS rebinding or redirect-to-internal attacks.
-4. **Budget & Body Limits**: Maximum 5 redirects, 5-second per-request timeout, 10-second total budget. Uses `HEAD` first, falls back to streamed `GET` and terminates immediately after headers (no body download).
-5. **Port & Credential Filtering**: Only standard ports 80 and 443 permitted. Userinfo (`user:pass@host`) is rejected.
-6. **Defanging Everywhere**: All displayed URLs and network indicators are defanged by default (`hxxp://`, `example[.]com`) with an interactive toggle to prevent accidental clicks.
-
----
-
-## 7. Privacy Guarantees
+## Privacy
 
 1. **No Automatic URL Submission**: By default, URLs are looked up by report hash only (`ALLOW_VT_URL_SUBMISSION=false`). They are never submitted to public scanning engines without consent.
 2. **Zero File Uploads**: Uploaded files are stream-hashed in memory (`SHA-256`, `SHA-1`, `MD5`) and looked up by hash. Binary file contents are **never saved to disk** and never uploaded to external services without explicit user opt-in.
+3. **Anonymized LLM Reasoning**: Email bodies are stripped of personal identifiers, sensitive headers, and credentials before reaching external reasoning models.
 
 ---
 
-## 8. API Endpoints
+## Limitations
 
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `GET` | `/api/health` | Service health, active telemetry connections, demo mode status |
-| `POST` | `/api/analyze/url` | Analyze URL with SSRF-safe redirect tracing & multi-source scoring |
-| `POST` | `/api/analyze/hash` | Analyze MD5/SHA-1/SHA-256 hash |
-| `POST` | `/api/analyze/file` | Stream-hash file (up to 32MB) and look up threat reputation |
-| `GET` | `/api/scans` | Paginated investigation history |
-| `GET` | `/api/scans/{id}` | Retrieve individual scan report |
-| `GET` | `/api/history/{target}` | Retrieve all scans recorded for a specific target |
-| `GET` | `/api/compare/{id1}/{id2}`| Comparative verdict drift diff between two scans |
-| `GET` | `/api/watchlist` | Retrieve monitored targets and scan states |
-| `POST` | `/api/watchlist` | Add target to scheduled watchlist |
-| `DELETE` | `/api/watchlist/{id}` | Remove target from watchlist |
-| `POST` | `/api/watchlist/{id}/rescan` | Manually trigger rescan of monitored target |
-| `GET` | `/api/alerts` | List threat escalation notifications |
-| `POST` | `/api/demo/seed` | Seed demo dataset (`?reset=true` wipes and re-seeds clean baseline) |
-| `POST` | `/api/demo/reset` | Shortcut to reset demo dataset to pristine baseline |
-
----
-
-## 9. Limitations & Future Improvements
-
-### Limitations
-- **No Native Antivirus Engine**: ThreatLens does not dissemble binaries or run an in-house malware scanning engine.
+- **No Native Antivirus Engine**: HushWarden synthesizes and correlates multi-source intelligence; it does not disassemble raw binaries or run an in-house kernel scanner.
 - **RDAP Rate Limits**: Public RDAP endpoints can rate-limit high-throughput bulk queries.
 - **Keyless DNS Visibility**: Passive DNS and historical DNS records require commercial feeds (e.g. SecurityTrails/Farsight).
 
-### Future Improvements
-- **Automated Sandbox Detonation**: Native integration with Cuckoo / CAPE sandbox for live behavioral capture.
-- **MITRE ATT&CK Matrix Mapping**: Dynamic mapping of behavioral factors to ATT&CK tactics and techniques.
-- **Enterprise Webhook Integrations**: Slack, Microsoft Teams, and PagerDuty notifications for watchlist drift alerts.
-- **Custom Policy Ensembles**: Configurable scoring weights tailored to specific enterprise risk appetites.
+---
+
+## License
+
+MIT
