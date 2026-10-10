@@ -9,7 +9,6 @@ import {
   Sliders,
   PanelLeftClose,
   PanelLeftOpen,
-  ShieldAlert,
   Layers,
   Sparkles,
   RotateCcw,
@@ -52,10 +51,10 @@ export const Sidebar: React.FC = () => {
 
   const navItems = [
     {
-      to: '/',
+      to: '/dashboard',
       label: 'Overview',
       icon: LayoutDashboard,
-      isActive: ['/', '/dashboard', '/overview'].includes(location.pathname),
+      isActive: ['/dashboard', '/overview'].includes(location.pathname),
     },
     {
       to: '/inbox',
@@ -130,15 +129,36 @@ export const Sidebar: React.FC = () => {
       {/* Brand Header */}
       <div className={`flex items-center border-b border-[var(--border-subtle)] py-4 ${collapsed ? 'justify-center px-2' : 'px-4 gap-3'}`}>
         <div
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/dashboard')}
           className="w-8 h-8 rounded-lg bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-500 shrink-0 cursor-pointer hover:bg-blue-600/20 transition-colors"
-          title="HushWarden Home"
+          title="HushWarden Dashboard"
         >
-          <ShieldAlert className="w-4 h-4" />
+          <svg viewBox="0 0 32 32" className="w-7 h-7" aria-hidden="true">
+            <path
+              d="M16 3 L27 8 V16 C27 23 22 28 16 29 C10 28 5 23 5 16 V8 Z"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinejoin="round"
+              strokeLinecap="round"
+            />
+            <line
+              x1="11"
+              y1="17"
+              x2="21"
+              y2="17"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+            />
+          </svg>
         </div>
 
         {!collapsed && (
-          <div className="flex flex-col truncate">
+          <div
+            onClick={() => navigate('/dashboard')}
+            className="flex flex-col truncate cursor-pointer"
+          >
             <span className="font-mono font-bold text-sm tracking-wider text-[var(--text-primary)] leading-tight">
               HUSH<span className="text-blue-500">WARDEN</span>
             </span>

@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { useDrawer } from '../../context/DrawerContext';
 import { useCommandPalette } from '../../context/CommandPaletteContext';
 import { useKeyboardShortcut } from '../../hooks/useKeyboardShortcut';
@@ -91,14 +91,6 @@ export const AppShell: React.FC = () => {
               <Routes>
                 {/* Overview / Dashboard aliases */}
                 <Route
-                  path="/"
-                  element={
-                    <Suspense fallback={<DashboardSkeleton />}>
-                      <DashboardPage />
-                    </Suspense>
-                  }
-                />
-                <Route
                   path="/dashboard"
                   element={
                     <Suspense fallback={<DashboardSkeleton />}>
@@ -113,6 +105,10 @@ export const AppShell: React.FC = () => {
                       <DashboardPage />
                     </Suspense>
                   }
+                />
+                <Route
+                  path="/"
+                  element={<Navigate to="/dashboard" replace />}
                 />
 
                 {/* Gmail Inbox */}

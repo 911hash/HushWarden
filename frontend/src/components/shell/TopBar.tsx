@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { useLocation, useNavigate, matchPath } from 'react-router-dom';
-import { Search, Eye, EyeOff, Sun, Moon, RefreshCw } from 'lucide-react';
+import { useLocation, useNavigate, matchPath, NavLink } from 'react-router-dom';
+import { Search, Eye, EyeOff, Sun, Moon, RefreshCw, Globe } from 'lucide-react';
 import { useTheme } from '../../design/ThemeContext';
 import { useDefang } from '../../design/DefangContext';
 import { useCommandPalette } from '../../context/CommandPaletteContext';
@@ -35,7 +35,7 @@ export const TopBar: React.FC = () => {
   // Compute breadcrumbs driven by active path
   const breadcrumbs: BreadcrumbItem[] = useMemo(() => {
     const p = location.pathname;
-    const base: BreadcrumbItem[] = [{ label: 'HushWarden', onClick: () => navigate('/') }];
+    const base: BreadcrumbItem[] = [{ label: 'HushWarden', onClick: () => navigate('/dashboard') }];
 
     if (p === '/' || p === '/dashboard' || p === '/overview') {
       return [...base, { label: 'Overview' }];
@@ -128,6 +128,18 @@ export const TopBar: React.FC = () => {
 
       {/* Right Controls: CommandPalette trigger, Defang toggle, Theme toggle, Health dot, Demo badge */}
       <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+        {/* Back to Landing Page Link */}
+        <Tooltip content="Return to public landing page">
+          <NavLink
+            to="/"
+            aria-label="Back to landing page"
+            className="flex items-center gap-1.5 h-7 px-2.5 rounded-md bg-[var(--bg-inset)] hover:bg-[var(--bg-elevated)] border border-[var(--border-subtle)] text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 cursor-pointer shadow-xs"
+          >
+            <Globe className="w-3.5 h-3.5 text-[var(--text-tertiary)]" />
+            <span className="hidden md:inline">Landing</span>
+          </NavLink>
+        </Tooltip>
+
         {/* Command Palette Trigger */}
         <button
           type="button"

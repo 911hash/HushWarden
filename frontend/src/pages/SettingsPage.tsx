@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import {
   Sliders,
   Key,
@@ -19,6 +19,7 @@ import {
   Layout,
   Database,
   Trash2,
+  Globe,
 } from 'lucide-react';
 import { useTheme } from '../design/ThemeContext';
 import { useDefang } from '../design/DefangContext';
@@ -648,6 +649,20 @@ export const SettingsPage: React.FC = () => {
             </div>
             <p className="text-[11px] text-[var(--text-tertiary)]">Report load layout</p>
           </div>
+        </div>
+
+        {/* Public Landing Page Link */}
+        <div className="pt-2 border-t border-[var(--border-subtle)] flex items-center justify-between">
+          <div className="flex items-center gap-2 text-xs text-[var(--text-secondary)]">
+            <Globe className="w-4 h-4 text-blue-400" />
+            <span>Public marketing landing page for unauthenticated visitors & judges</span>
+          </div>
+          <Link
+            to="/"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--bg-inset)] hover:bg-[var(--bg-elevated)] border border-[var(--border-subtle)] text-xs text-[var(--text-primary)] hover:border-[var(--border-strong)] transition-colors"
+          >
+            <span>Back to Landing</span>
+          </Link>
         </div>
       </div>
 

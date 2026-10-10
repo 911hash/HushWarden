@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import React, { Suspense } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './design/ThemeContext';
 import { DefangProvider } from './design/DefangContext';
 import { SidebarProvider } from './context/SidebarContext';
@@ -9,6 +9,10 @@ import { ToastProvider } from './components/primitives/Toast';
 import { CopyWarningBridge } from './components/shell/CopyWarningBridge';
 import { ErrorBoundary } from './components/shell/ErrorBoundary';
 import { AppShell } from './components/shell/AppShell';
+
+const LandingPage = React.lazy(() =>
+  import('./pages/LandingPage').then(m => ({ default: m.LandingPage }))
+);
 
 export default function App() {
   return (
@@ -21,7 +25,17 @@ export default function App() {
                 <ToastProvider>
                   <CopyWarningBridge />
                   <BrowserRouter>
-                    <AppShell />
+                    <Routes>
+                      <Route
+                        path="/"
+                        element={
+                          <Suspense fallback={<div className="min-h-screen bg-[var(--bg-base)]" />}>
+                            <LandingPage />
+                          </Suspense>
+                        }
+                      />
+                      <Route path="/*" element={<AppShell />} />
+                    </Routes>
                   </BrowserRouter>
                 </ToastProvider>
               </CommandPaletteProvider>
