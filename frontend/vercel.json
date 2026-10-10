@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://threatlens-h618.onrender.com/api/:path*"
+    }
+  ]
+}
